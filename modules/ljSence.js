@@ -50,9 +50,9 @@ exports.sence = function() {
         y = this.lo.range(parseInt(y[0]), parseInt(y[1]));
         z = this.lo.range(parseInt(z[0]), parseInt(z[1]));
 
-        if (x.length == 0) { x = [basic[0]]; }
-        if (y.length == 0) { y = [basic[1]]; }
-        if (z.length == 0) { z = [basic[2]]; }
+        if (x.length == 0) { x = [0]; }
+        if (y.length == 0) { y = [0]; }
+        if (z.length == 0) { z = [0]; }
 
         x.forEach(function(x_value) {
             y.forEach(function(y_value) {
