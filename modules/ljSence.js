@@ -227,3 +227,37 @@ exports.fly = function (sence) {
         this.entity.setPassenger(this.sence.getKevinEntity());
     };
 };
+
+exports.hurt = function (sence) {
+    this.sence = sence;
+    this.entity;
+
+    this.hurt = function () {
+        this.entity.playEffect(org.bukkit.EntityEffect.HURT);
+    };
+
+    this.hurt_real = function (value) {
+        this.entity.setHealth(this.entity.getHealth() - value);
+        this.hurt();
+    };
+
+    this.hurt_lewis = function () {
+        this.entity = this.sence.getLewisEntity();
+        this.hurt();
+    };
+
+    this.hurt_kevin = function () {
+        this.entity = this.sence.getKevinEntity();
+        this.hurt();
+    };
+
+    this.hurt_lewis_real = function (value) {
+        this.entity = this.sence.getLewisEntity();
+        this.hurt_real(value);
+    };
+
+    this.hurt_kevin_real = function (value) {
+        this.entity = this.sence.getKevinEntity();
+        this.hurt_real(value);
+    };
+};
