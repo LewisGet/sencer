@@ -1,6 +1,4 @@
 exports.sence = function() {
-    this.nj = require("numjs");
-    this.lo = require("lodash");
     this.world = (server.getWorlds())[0];
 
     this.getKevinEntity = function () {
@@ -26,41 +24,36 @@ exports.sence = function() {
     };
 
     this.execute = function (location, execute_function) {
-        location = this.getLocation(location);
+        var location = this.getLocation(location);
 
         execute_function(location);
     };
 
     this.each_execute = function (locations, execute_function) {
-        locations.forEach(function(location, index) {
-            execute_function(location, index);
-        });
+        for (var i = 0; i < locations.length; i++)
+        {
+            execute_function(locations[i], i);
+        }
     };
 
-    this.rangeXYZ = function (basic, x, y, z) {
+    this.rangeXYZ = function (x, y, z) {
         var locations = [];
 
-        nj_basic = this.nj.array(basic);
+        x_range = x.split("~");
+        y_range = y.split("~");
+        z_range = z.split("~");
 
-        x = x.split("~");
-        y = y.split("~");
-        z = z.split("~");
-
-        x = this.lo.range(parseInt(x[0]), parseInt(x[1]));
-        y = this.lo.range(parseInt(y[0]), parseInt(y[1]));
-        z = this.lo.range(parseInt(z[0]), parseInt(z[1]));
-
-        if (x.length == 0) { x = [0]; }
-        if (y.length == 0) { y = [0]; }
-        if (z.length == 0) { z = [0]; }
-
-        x.forEach(function(x_value) {
-            y.forEach(function(y_value) {
-                z.forEach(function(z_value) {
-                    locations.push((nj_basic.add([x_value, y_value, z_value])));
-                });
-            });
-        });
+        for (var xi = parseInt(x_range[0]); xi <= parseInt(x_range[1]); xi++)
+        {
+            for (var yi = parseInt(y_range[0]); yi <= parseInt(y_range[1]); yi++)
+            {
+                for (var zi = parseInt(z_range[0]); zi <= parseInt(z_range[1]); zi++)
+                {
+                    var location = this.getLocation([xi, yi, zi]);
+                    locations.push(location);
+                }
+            }
+        }
 
         return locations;
     };
