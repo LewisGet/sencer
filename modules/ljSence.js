@@ -43,6 +43,8 @@ exports.sence = function() {
         y_range = y.split("~");
         z_range = z.split("~");
 
+        var lewis = this.getKevinEntity();
+
         for (var xi = parseInt(x_range[0]); xi <= parseInt(x_range[1]); xi++)
         {
             for (var yi = parseInt(y_range[0]); yi <= parseInt(y_range[1]); yi++)
@@ -66,6 +68,14 @@ exports.explosion = function (sence) {
         location = this.sence.getLocation(location);
 
         this.sence.world.createExplosion(location, level);
+    };
+
+    this.createList = function (locations, level) {
+        var explosion = this;
+
+        locations.forEach(function(location) {
+            explosion.create(location, level);
+        });
     };
 
     this.createBasic = function (location) {

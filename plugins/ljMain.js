@@ -3,7 +3,7 @@ exports._ = require("ljSence");
 exports.sence     = new exports._.sence();
 exports.explosion = new exports._.explosion(exports.sence);
 exports.block     = new exports._.block(exports.sence);
-exports.entity    = new exports._.entity(exports.sence);
+exports.sentity   = new exports._.entity(exports.sence);
 exports.lightning = new exports._.lightning(exports.sence);
 exports.resource  = new exports._.resource(exports.sence);
 exports.fly       = new exports._.fly(exports.sence);
@@ -17,9 +17,9 @@ var explosion_action = function (event) {
     {
         var block = blocks[i];
 
-        var x = (Math.random() - 0.5) * 10;
+        var x = (Math.random() - 0.5) * 8;
         var y = (Math.random() * 5);
-        var z = (Math.random() - 0.5) * 10;
+        var z = (Math.random() - 0.5) * 8;
 
         var fly_block = block.world.spawnFallingBlock(block.location, block.typeId, block.data);
 
