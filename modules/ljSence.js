@@ -9,6 +9,10 @@ exports.sence = function() {
         return org.bukkit.Bukkit.getPlayer("LewisJang");
     };
 
+    this.getGoldEntity = function () {
+        return org.bukkit.Bukkit.getPlayer("GoldJing");
+    };
+
     this.getLocation = function (value) {
         if (value.tolist)
         {
