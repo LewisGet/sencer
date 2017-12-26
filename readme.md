@@ -41,6 +41,7 @@ exports.demo_fly_block = function (entity, block_id) {
     fly.fly_block_with_player(sence.getLewisEntity(), block_id, 0, fly_vec);
 };
 
+//噴發小雞
 exports.explosion_chicken = function (location) {
     for (var i = 0; i < 30; i++)
     {
@@ -53,5 +54,33 @@ exports.explosion_chicken = function (location) {
         entity.setVelocity(new org.bukkit.util.Vector(x, y, z));
     }
 };
+
+//噴發小雞 付帶延遲爆炸
+exports.explosion_chicken = function () {
+    var lewis = exports.sence.getLewisEntity();
+    for (var i = 0; i < 30; i++)
+    {
+        var entity = exports.sentity.create(lewis.location, exports.sentity.type.CHICKEN);
+
+        var x = (Math.random() - 0.5) * 8;
+        var y = (Math.random() * 5);
+        var z = (Math.random() - 0.5) * 8;
+
+        entity.setVelocity(new org.bukkit.util.Vector(x, y, z));
+
+        (function(entity) {
+            var random_float = function () {
+                return (Math.random() - 0.5) * 2;
+            };
+
+            var deleat_exp = function () {
+                exports.explosion.create(entity.location, 5);
+            };
+
+            setTimeout(deleat_exp, 1000 + parseInt(random_float() * 100));
+        })(entity);
+    }
+};
+
 
 ```
