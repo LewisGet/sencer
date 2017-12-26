@@ -31,4 +31,14 @@ setInterval(function(){
     world.setFullTime(90000);
 }, 1000);
 
+exports.demo_fly_block = function (entity, block_id) {
+    var fly = new exports._.fly(exports.sence);
+
+
+    // small fly
+    var fly_vec = fly.entity_direction_vec([3, 1, 3]);
+
+    fly.fly_block_with_player(sence.getLewisEntity(), block_id, 0, fly_vec);
+};
+
 ```
