@@ -13,6 +13,10 @@ exports.sence = function() {
         return org.bukkit.Bukkit.getPlayer("GoldJing");
     };
 
+    this.getXyz = function (value) {
+        return [value.x, value.y, value.z];
+    };
+
     this.getLocation = function (value) {
         if (value.tolist)
         {
@@ -189,49 +193,85 @@ exports.resource = function (sence) {
 
 exports.fly = function (sence) {
     this.sence = sence;
-    this.entity;
+    this.entity = this.sence.getLewisEntity();
     this.x = 0;
     this.y = 5;
     this.z = 0;
 
-    this.fly_vec = function () {
-        return new org.bukkit.util.Vector(this.x, this.y, this.z);
+    this.entity_direction_vec = function (motVec, addVec) {
+        motVec = (typeof motVec !== 'undefined') ?  motVec : [1, 1, 1];
+        addVec = (typeof addVec !== 'undefined') ?  addVec : [0, 0, 0];
+
+        var direction = this.entity.location.direction;
+        
+        this.x = parseInt(direction.x * motVec[0]) + addVec[0];
+        this.y = parseInt(direction.y * motVec[1]) + addVec[1];
+        this.z = parseInt(direction.z * motVec[2]) + addVec[2];
+
+        console.log(this.x);
+        console.log(this.y);
+        console.log(this.z);
+
+
+        return this.fly_vec();
     };
 
-    this.fly_entity = function () {
-        this.entity.setVelocity(this.fly_vec());
+    this.fly_vec = function (xyz) {
+        xyz = (typeof xyz !== 'undefined') ?  xyz : [0, 0, 0];
+
+        if (xyz = [0, 0, 0])
+        {
+            return new org.bukkit.util.Vector(this.x, this.y, this.z);
+        }
+
+        return new org.bukkit.util.Vector(xyz[0], xyz[1], xyz[2]);
     };
 
-    this.fly_lewis = function () {
+    this.fly_entity = function (vec) {
+        if (typeof vec == 'undefined')
+        {
+            this.entity.setVelocity(this.fly_vec());
+
+            return true;
+        }
+
+        this.entity.setVelocity(vec);
+
+        return true;
+    };
+
+    this.fly_lewis = function (vec) {
         this.entity = this.sence.getLewisEntity();
 
-        this.fly_entity();
+        this.fly_entity(vec);
     };
 
-    this.fly_kevin = function () {
+    this.fly_kevin = function (vec) {
         this.entity = this.sence.getKevinEntity();
 
-        this.fly_entity();
+        this.fly_entity(vec);
     };
 
-    this.fly_block = function (location, typeid, data) {
+    this.fly_block = function (location, typeid, data, vec) {
         location = this.sence.getLocation(location);
 
         this.entity = this.sence.world.spawnFallingBlock(location, typeid, data);
 
-        this.fly_entity();
+        this.fly_entity(vec);
     };
 
-    this.fly_block_with_lewis = function (location, typeid, data) {
-        this.fly_block(location, typeid, data);
+    this.fly_block_with_player = function (player, typeid, data, vec) {
+        var xyz = this.sence.getXyz(player.location);
 
-        this.entity.setPassenger(this.sence.getLewisEntity());
-    };
+        // 防止方塊生成時被玩家卡住
+        xyz[1] += 3;
 
-    this.fly_block_with_kevin = function (location, typeid, data) {
-        this.fly_block(location, typeid, data);
+        var location = this.sence.getLocation(xyz);
+        location.direction = player.location.direction;
 
-        this.entity.setPassenger(this.sence.getKevinEntity());
+        this.fly_block(location, typeid, data, vec);
+
+        this.entity.setPassenger(player);
     };
 };
 
