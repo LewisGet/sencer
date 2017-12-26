@@ -41,4 +41,17 @@ exports.demo_fly_block = function (entity, block_id) {
     fly.fly_block_with_player(sence.getLewisEntity(), block_id, 0, fly_vec);
 };
 
+exports.explosion_chicken = function (location) {
+    for (var i = 0; i < 30; i++)
+    {
+        var entity = exports.sentity.create(location, exports.sentity.type.CHICKEN);
+
+        var x = (Math.random() - 0.5) * 8;
+        var y = (Math.random() * 5);
+        var z = (Math.random() - 0.5) * 8;
+
+        entity.setVelocity(new org.bukkit.util.Vector(x, y, z));
+    }
+};
+
 ```
