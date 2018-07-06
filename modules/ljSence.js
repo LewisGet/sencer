@@ -25,10 +25,12 @@ exports.sence = function() {
         return [value.x, value.y, value.z];
     };
 
-    this.getLocation = function (value) {
+    this.getLocation = function (value, relative) {
         if (typeof(value) == "undefined")
         {
-            return self.location;
+            value = self.location;
+
+            return new org.bukkit.Location(this.world, value.x, value.y, value.z);
         }
 
         if (value.tolist)
@@ -38,6 +40,16 @@ exports.sence = function() {
 
         if (Array.isArray(value))
         {
+            if (relative)
+            {
+                var basic_location = self.location;
+                var basic_xyz = [basic_location.x, basic_location.y, basic_location.z];
+
+                value[0] = basic_xyz[0] + value[0];
+                value[1] = basic_xyz[1] + value[1];
+                value[2] = basic_xyz[2] + value[2];
+            }
+
             return new org.bukkit.Location(this.world, value[0], value[1], value[2]);
         }
 
@@ -151,8 +163,8 @@ exports.entity = function (sence) {
     this.sence = sence;
     this.type = org.bukkit.entity.EntityType;
 
-    this.create = function (location, type) {
-        location = this.sence.getLocation(location);
+    this.create = function (location, type, relative) {
+        location = this.sence.getLocation(location, relative);
 
         return this.sence.world.spawnEntity(location, type);
     };
@@ -161,24 +173,24 @@ exports.entity = function (sence) {
         var entity = this;
 
         locations.forEach(function(location) {
-            entity.create(location, type);
+            entity.createList(location, type);
         });
     };
 
-    this.creeper = function (location) {
-        return this.create(location, this.type.CREEPER);
+    this.creeper = function (location, relative) {
+        return this.create(location, this.type.CREEPER, relative);
     };
 
-    this.chicken = function (location) {
-        return this.create(location, this.type.CHICKEN);
+    this.chicken = function (location, relative) {
+        return this.create(location, this.type.CHICKEN, relative);
     };
 
-    this.cow = function (location) {
-        return this.create(location, this.type.COW);
+    this.cow = function (location, relative) {
+        return this.create(location, this.type.COW, relative);
     };
 
-    this.zombie = function (location) {
-        return this.create(location, this.type.ZOMBIE);
+    this.zombie = function (location, relative) {
+        return this.create(location, this.type.ZOMBIE, relative);
     };
 };
 
