@@ -1,3 +1,11 @@
+if (typeof Array.prototype.forEach != 'function') {
+    Array.prototype.forEach = function(callback){
+      for (var i = 0; i < this.length; i++){
+        callback.apply(this, [this[i], i, this]);
+      }
+    };
+}
+
 exports.sence = function() {
     this.world = (server.getWorlds())[0];
 
@@ -18,6 +26,11 @@ exports.sence = function() {
     };
 
     this.getLocation = function (value) {
+        if (typeof(value) == "undefined")
+        {
+            return self.location;
+        }
+
         if (value.tolist)
         {
             value = value.tolist();
@@ -148,8 +161,24 @@ exports.entity = function (sence) {
         var entity = this;
 
         locations.forEach(function(location) {
-            entity.createList(location, type);
+            entity.create(location, type);
         });
+    };
+
+    this.creeper = function (location) {
+        return this.create(location, this.type.CREEPER);
+    };
+
+    this.chicken = function (location) {
+        return this.create(location, this.type.CHICKEN);
+    };
+
+    this.cow = function (location) {
+        return this.create(location, this.type.COW);
+    };
+
+    this.zombie = function (location) {
+        return this.create(location, this.type.ZOMBIE);
     };
 };
 
@@ -166,7 +195,7 @@ exports.lightning = function (sence) {
         var lightning = this;
 
         locations.forEach(function(location) {
-            lightning.createList(location);
+            lightning.create(location);
         });
     };
 };
@@ -186,7 +215,7 @@ exports.resource = function (sence) {
         var resource = this;
 
         locations.forEach(function(location) {
-            resource.createList(location, type);
+            resource.create(location, type);
         });
     };
 };
