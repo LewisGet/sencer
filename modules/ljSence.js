@@ -58,6 +58,24 @@ exports.sence = function() {
         return new org.bukkit.Location(this.world, value.x, value.y, value.z);
     };
 
+    this.getRandomNextToLocation = function (max, min) {
+        var xyz = [this.getRandomInt(max, min), this.getRandomInt(max, min), this.getRandomInt(max, min)];
+
+        return this.getLocation(xyz, true);
+    };
+
+    this.getRandomInt = function (max, min) {
+        var random_val = (Math.random() - 0.5);
+
+        if (random_val < 0)
+        {
+            max *= -1;
+            min *= -1;
+        }
+
+        return random_val;
+    }
+
     this.execute = function (location, execute_function) {
         var location = this.getLocation(location);
 
@@ -242,6 +260,44 @@ exports.entity = function (sence) {
 
     this.zombie = function (location, relative) {
         return this.create(location, this.type.ZOMBIE, relative);
+    };
+
+    this.endermanTakeBlock = function (enderman, blockLocal) {
+        var itemForEnderMan = new org.bukkit.material.MaterialData(blockLocal.block.getTypeId(), blockLocal.block.getData());
+
+        // remove block
+        blockLocal.block.setTypeId(0);
+
+        enderman.teleport(blockLocal);
+
+        enderman.carriedMaterial = itemForEnderMan;
+    };
+
+    this.endermanABAndTake = function (a, b, sec, basic_time, fps) {
+        if (typeof(fps) == "undefined") { fps = 30; }
+        if (typeof(basic_time) == "undefined") { basic_time = 0; }
+
+        var entity = this;
+        var ender = this.create(a, this.type.ENDERMAN);
+
+        this.sence.animationMove(ender, a, b, sec, basic_time, fps);
+
+        setTimeout(function(){
+            entity.endermanTakeBlock(ender, b);
+        }, basic_time + (sec * 1000));
+
+        return ender;
+    };
+
+    this.endermanABCTakeB = function (a, b, c, sec, basic_time, fps) {
+        if (typeof(fps) == "undefined") { fps = 30; }
+        if (typeof(basic_time) == "undefined") { basic_time = 0; }
+
+        var ender = this.endermanABAndTake(a, b, sec, basic_time, fps);
+
+        this.sence.animationMove(ender, b, c, sec, (basic_time + (sec * 1000)), fps);
+
+        return ender;
     };
 };
 
