@@ -27,6 +27,12 @@ exports.sence = function() {
         return [value.x, value.y, value.z];
     };
 
+    this.command = function (value) {
+        return server.dispatchCommand(
+            org.bukkit.Bukkit.getConsoleSender(), value
+        );
+    };
+
     this.getLocation = function (value, relative) {
         if (typeof(value) == "undefined")
         {
