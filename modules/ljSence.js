@@ -1,3 +1,5 @@
+var np = require("numjs");
+
 if (typeof Array.prototype.forEach != 'function') {
     Array.prototype.forEach = function(callback){
       for (var i = 0; i < this.length; i++){
@@ -91,6 +93,55 @@ exports.sence = function() {
         }
 
         return locations;
+    };
+
+    this.getLineLocation = function(a, b, sec, fps) {
+        a = this.getXyz(this.getLocation(a));
+        b = this.getXyz(this.getLocation(b));
+
+        var frames = sec * fps;
+
+        var locations = np.array([
+            this.linspace(a[0], b[0], frames),
+            this.linspace(a[1], b[1], frames),
+            this.linspace(a[2], b[2], frames)
+        ]).T.tolist();
+
+        var return_locations = [];
+
+        locations.forEach(function(location){
+            return_locations.push(sence.getLocation(location));
+        });
+
+        return return_locations;
+    };
+
+    this.animationMove = function(entity, a, b, sec, basic_time, fps) {
+        var locations = this.getLineLocation(a, b, sec, fps);
+        console.log(locations.length);
+
+        for (var i = 0; i < locations.length; i++)
+        {
+            var location = locations[i];
+            var excute_time = parseInt((i * (1000 / fps)) + basic_time);
+
+            (function(excute_time, location) {
+                setTimeout(function(){
+                    entity.teleport(location);
+                }, excute_time);
+            })(excute_time, location);
+
+            console.log(location);
+        }
+    };
+
+    this.linspace = function (a, b, n) {
+        if(typeof n === "undefined") n = Math.max(Math.round(b-a)+1,1);
+        if(n<2) { return n===1?[a]:[]; }
+        var i,ret = Array(n);
+        n--;
+        for(i=n;i>=0;i--) { ret[i] = (i*b+(n-i)*a)/n; }
+        return ret;
     };
 };
 
