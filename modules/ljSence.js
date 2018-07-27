@@ -33,10 +33,6 @@ exports.sence = function() {
         );
     };
 
-    this.getXyzCopyMessage = function (location) {
-        
-    };
-
     this.getLocation = function (value, relative, entity) {
         if (typeof(entity) == "undefined")
         {
@@ -89,7 +85,7 @@ exports.sence = function() {
         }
 
         return random_val;
-    }
+    };
 
     this.execute = function (location, execute_function) {
         var location = this.getLocation(location);
@@ -244,8 +240,8 @@ exports.entity = function (sence) {
     this.sence = sence;
     this.type = org.bukkit.entity.EntityType;
 
-    this.create = function (location, type, relative) {
-        location = this.sence.getLocation(location, relative);
+    this.create = function (location, type, relative, entity) {
+        location = this.sence.getLocation(location, relative, entity);
 
         return this.sence.world.spawnEntity(location, type);
     };
