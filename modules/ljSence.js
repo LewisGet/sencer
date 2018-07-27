@@ -258,20 +258,20 @@ exports.entity = function (sence) {
         });
     };
 
-    this.creeper = function (location, relative) {
-        return this.create(location, this.type.CREEPER, relative);
+    this.creeper = function (location, relative, entity) {
+        return this.create(location, this.type.CREEPER, relative, entity);
     };
 
-    this.chicken = function (location, relative) {
-        return this.create(location, this.type.CHICKEN, relative);
+    this.chicken = function (location, relative, entity) {
+        return this.create(location, this.type.CHICKEN, relative, entity);
     };
 
-    this.cow = function (location, relative) {
-        return this.create(location, this.type.COW, relative);
+    this.cow = function (location, relative, entity) {
+        return this.create(location, this.type.COW, relative, entity);
     };
 
-    this.zombie = function (location, relative) {
-        return this.create(location, this.type.ZOMBIE, relative);
+    this.zombie = function (location, relative, entity) {
+        return this.create(location, this.type.ZOMBIE, relative, entity);
     };
 
     this.endermanTakeBlock = function (enderman, blockLocal) {
