@@ -24,13 +24,17 @@ exports.sence = function() {
     };
 
     this.getXyz = function (value) {
-        return [value.x, value.y, value.z];
+        return [value.x, value.y, value.z].slice();
     };
 
     this.command = function (value) {
         return server.dispatchCommand(
             org.bukkit.Bukkit.getConsoleSender(), value
         );
+    };
+
+    this.getXyzCopyMessage = function (location) {
+        
     };
 
     this.getLocation = function (value, relative) {
@@ -43,7 +47,7 @@ exports.sence = function() {
 
         if (value.tolist)
         {
-            value = value.tolist();
+            value = value.tolist().slice();
         }
 
         if (Array.isArray(value))
@@ -51,7 +55,7 @@ exports.sence = function() {
             if (relative)
             {
                 var basic_location = self.location;
-                var basic_xyz = [basic_location.x, basic_location.y, basic_location.z];
+                var basic_xyz = [basic_location.x, basic_location.y, basic_location.z].slice();
 
                 value[0] = basic_xyz[0] + value[0];
                 value[1] = basic_xyz[1] + value[1];
@@ -142,20 +146,17 @@ exports.sence = function() {
 
     this.animationMove = function(entity, a, b, sec, basic_time, fps) {
         var locations = this.getLineLocation(a, b, sec, fps);
-        console.log(locations.length);
 
         for (var i = 0; i < locations.length; i++)
         {
             var location = locations[i];
             var excute_time = parseInt((i * (1000 / fps)) + basic_time);
 
-            (function(excute_time, location) {
+            (function(excute_time, location, entity) {
                 setTimeout(function(){
                     entity.teleport(location);
                 }, excute_time);
-            })(excute_time, location);
-
-            console.log(location);
+            })(excute_time, location, entity);
         }
     };
 
@@ -278,33 +279,6 @@ exports.entity = function (sence) {
 
         enderman.carriedMaterial = itemForEnderMan;
     };
-
-    this.endermanABAndTake = function (a, b, sec, basic_time, fps) {
-        if (typeof(fps) == "undefined") { fps = 30; }
-        if (typeof(basic_time) == "undefined") { basic_time = 0; }
-
-        var entity = this;
-        var ender = this.create(a, this.type.ENDERMAN);
-
-        this.sence.animationMove(ender, a, b, sec, basic_time, fps);
-
-        setTimeout(function(){
-            entity.endermanTakeBlock(ender, b);
-        }, basic_time + (sec * 1000));
-
-        return ender;
-    };
-
-    this.endermanABCTakeB = function (a, b, c, sec, basic_time, fps) {
-        if (typeof(fps) == "undefined") { fps = 30; }
-        if (typeof(basic_time) == "undefined") { basic_time = 0; }
-
-        var ender = this.endermanABAndTake(a, b, sec, basic_time, fps);
-
-        this.sence.animationMove(ender, b, c, sec, (basic_time + (sec * 1000)), fps);
-
-        return ender;
-    };
 };
 
 exports.lightning = function (sence) {
@@ -361,11 +335,6 @@ exports.fly = function (sence) {
         this.x = parseInt(direction.x * motVec[0]) + addVec[0];
         this.y = parseInt(direction.y * motVec[1]) + addVec[1];
         this.z = parseInt(direction.z * motVec[2]) + addVec[2];
-
-        console.log(this.x);
-        console.log(this.y);
-        console.log(this.z);
-
 
         return this.fly_vec();
     };
