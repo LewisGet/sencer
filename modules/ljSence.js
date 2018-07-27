@@ -37,10 +37,15 @@ exports.sence = function() {
         
     };
 
-    this.getLocation = function (value, relative) {
+    this.getLocation = function (value, relative, entity) {
+        if (typeof(entity) == "undefined")
+        {
+            entity = self;
+        }
+
         if (typeof(value) == "undefined")
         {
-            value = self.location;
+            value = entity.location;
 
             return new org.bukkit.Location(this.world, value.x, value.y, value.z);
         }
@@ -54,7 +59,7 @@ exports.sence = function() {
         {
             if (relative)
             {
-                var basic_location = self.location;
+                var basic_location = entity.location;
                 var basic_xyz = [basic_location.x, basic_location.y, basic_location.z].slice();
 
                 value[0] = basic_xyz[0] + value[0];
