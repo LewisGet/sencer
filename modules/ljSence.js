@@ -2,9 +2,9 @@ var np = require("numjs");
 
 if (typeof Array.prototype.forEach != 'function') {
     Array.prototype.forEach = function(callback){
-      for (var i = 0; i < this.length; i++){
-        callback.apply(this, [this[i], i, this]);
-      }
+        for (var i = 0; i < this.length; i++){
+            callback.apply(this, [this[i], i, this]);
+        }
     };
 }
 
@@ -279,6 +279,25 @@ exports.entity = function (sence) {
         enderman.teleport(blockLocal);
 
         enderman.carriedMaterial = itemForEnderMan;
+    };
+
+    this.findNeerEntity = function (entity, xyz, name) {
+        name = name.toLowerCase();
+
+        var neer_entites = entity.getNearbyEntities(xyz[0], xyz[1], xyz[2]);
+
+        for (var i = 0; i < neer_entites.length; i++)
+        {
+            var neer_entity = neer_entites[i];
+            var entity_name = neer_entity.name.toLowerCase();
+
+            if (entity_name == name)
+            {
+                return neer_entity;
+            }
+        }
+
+        return null;
     };
 };
 
