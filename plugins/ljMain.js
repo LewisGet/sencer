@@ -8,6 +8,7 @@ exports.lightning = new exports._.lightning(exports.sence);
 exports.resource  = new exports._.resource(exports.sence);
 exports.fly       = new exports._.fly(exports.sence);
 exports.hurt      = new exports._.hurt(exports.sence);
+exports.sitem     = new exports._.item(exports.sence);
 
 /**
     爆炸方塊飛行特效

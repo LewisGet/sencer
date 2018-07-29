@@ -339,6 +339,44 @@ exports.resource = function (sence) {
     };
 };
 
+exports.item = function (sence) {
+    this.sence = sence;
+    this.type = org.bukkit.Material;
+    this.e_type = org.bukkit.enchantments.Enchantment;
+
+    this.create = function (type) {
+        return new org.bukkit.inventory.ItemStack(type);
+    };
+
+    this.getItemStackById = function (id, data) {
+        return (new org.bukkit.material.MaterialData(id, data)).toItemStack();
+    };
+
+    this.addEnchantment = function (item_stack, e_type, level) {
+        item_stack.addUnsafeEnchantment(e_type, level);
+
+        return item_stack;
+    };
+
+    this.setMeta = function (item_stack, execute_function, value) {
+        var item_data = item_stack.getItemMeta();
+
+        item_data = execute_function(item_data, value);
+
+        item_stack.setItemMeta(item_data);
+
+        return item_stack;
+    };
+
+    this.setName = function (item_stack, name) {
+        return this.setMeta(item_stack, function(i_d, name) {
+            i_d.setDisplayName(name);
+
+            return i_d;
+        });
+    };
+};
+
 exports.fly = function (sence) {
     this.sence = sence;
     this.entity = this.sence.getLewisEntity();
