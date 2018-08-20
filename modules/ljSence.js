@@ -204,11 +204,21 @@ exports.explosion = function (sence) {
 exports.block = function (sence) {
     this.sence = sence;
 
-    this.set = function (location, typeid, data) {
+    this.set = function (location, type_content, data) {
         location = this.sence.getLocation(location);
 
-        location.block.setTypeId(typeid);
-        location.block.setData(data);
+        if (typeof(location.block.setTypeId) == "function")
+        {
+            location.block.setTypeId(type_content);
+            location.block.setData(data);
+        }
+        else
+        {
+            location.block.setType(type_content);
+            location.block.setData(data);
+        }
+
+        return location.block;
     };
 
     this.remove = function (location) {
