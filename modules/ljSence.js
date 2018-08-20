@@ -203,6 +203,7 @@ exports.explosion = function (sence) {
 
 exports.block = function (sence) {
     this.sence = sence;
+    this.type = org.bukkit.Material;
 
     this.set = function (location, type_content, data) {
         location = this.sence.getLocation(location);
