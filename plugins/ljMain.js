@@ -39,3 +39,38 @@ events.blockExplode(function (event) {
 events.entityExplode(function (event) {
     explosion_action(event);
 });
+
+events.playerChat(function (e) {
+    //console.log(e.player);
+    //console.log(e.message);
+
+    // if type "c" to call fly
+    /**
+    if (e.message == "fly")
+    {
+        // do something
+    }
+    */
+});
+
+events.playerItemHeld(function (e) {
+    //console.log(e.getNewSlot());
+
+    // e.getNewSlot() 0 -> 8
+
+    // if take first item will fly
+    /**
+    if (e.getNewSlot() == 0)
+    {
+        // do something
+    }
+    */
+
+    // if player hold is dirt
+    /**
+    if (e.player.itemInHand.typeId == 3)
+    {
+        // do something
+    }
+    */
+});
