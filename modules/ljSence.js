@@ -36,7 +36,14 @@ exports.sence = function() {
     this.getLocation = function (value, relative, entity) {
         if (typeof(entity) == "undefined")
         {
-            entity = self;
+            if (typeof(self) == "undefined")
+            {
+                entity = this.getLewisEntity();
+            }
+            else
+            {
+                entity = self;
+            }
         }
 
         if (typeof(value) == "undefined")
