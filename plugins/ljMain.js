@@ -73,4 +73,12 @@ events.playerItemHeld(function (e) {
         // do something
     }
     */
+
+    // if in hand name "something"
+    /**
+    if (e.player.itemInHand.getItemMeta().displayName == "something")
+    {
+        // do something
+    }
+    */
 });
