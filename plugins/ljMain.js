@@ -81,4 +81,15 @@ events.playerItemHeld(function (e) {
         // do something
     }
     */
+
+    var item_data = e.player.itemInHand.getItemMeta();
+
+    if (item_data != null && item_data.displayName == "my name is kevin")
+    {
+        var lj = require("ljSence");
+        var sence     = new lj.sence();
+        var explosion = new lj.explosion(sence);
+
+        explosion.create(e.location, 10);
+    }
 });
